@@ -1,6 +1,22 @@
-# 🏥 MédiRDV - Application de Gestion des Rendez-Vous Médicaux
+<div align="center">
 
-Application web complète permettant aux médecins de planifier, organiser et suivre leurs consultations au quotidien.
+# MédiRDV
+
+**Plateforme de gestion des rendez-vous médicaux — Planification, Suivi des consultations & Vue Calendrier**
+
+<br/>
+
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.2.0-6DB33F?logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Angular](https://img.shields.io/badge/Angular-17-DD0031?logo=angular&logoColor=white)](https://angular.dev/)
+[![Java](https://img.shields.io/badge/Java-17-ED8B00?logo=openjdk&logoColor=white)](https://www.oracle.com/java/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.2-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white)](https://www.mysql.com/)
+[![Hibernate](https://img.shields.io/badge/Hibernate-JPA-59666C?logo=hibernate&logoColor=white)](https://hibernate.org/)
+[![BCrypt](https://img.shields.io/badge/BCrypt-Security-22C55E?logo=spring-security&logoColor=white)](https://spring.io/projects/spring-security)
+[![Docker Compose](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
+[![License MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+</div>
 
 ---
 

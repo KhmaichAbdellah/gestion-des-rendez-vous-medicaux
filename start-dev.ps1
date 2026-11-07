@@ -1,4 +1,4 @@
-﻿# ========================================================
+# ========================================================
 # MédiRDV - Lanceur PowerShell
 # ========================================================
 
@@ -33,3 +33,4 @@ Write-Host "  - Console H2       : http://localhost:8080/h2-console" -Foreground
 Write-Host ""
 Write-Host "  Identifiants : dr.martin@clinique.fr / Medecin2024!" -ForegroundColor Yellow
 Write-Host "========================================================" -ForegroundColor Green
+
