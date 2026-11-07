@@ -120,3 +120,4 @@ class AuthServiceTest {
             .hasMessageContaining("désactivé");
     }
 }
+

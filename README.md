@@ -13,7 +13,6 @@ Application web complète permettant aux médecins de planifier, organiser et su
 - [Structure du Projet](#-structure-du-projet)
 - [Installation & Démarrage](#-installation--démarrage)
 - [Déploiement Docker](#-déploiement-docker)
-- [Documentation Interactive Swagger / OpenAPI](#-documentation-interactive-swagger--openapi)
 - [Tests Unitaires & Intégration](#-tests-unitaires--intégration)
 - [Endpoints API REST](#-endpoints-api-rest)
 - [Historique des Commits Git](#-historique-des-commits-git)
@@ -238,17 +237,6 @@ docker-compose down
 - **Frontend Web :** `http://localhost:4200`
 - **API REST Backend :** `http://localhost:8080/api`
 - **Base de données MySQL :** Port `3306` (Base : `gestion_rdv_db`, Utilisateur : `rdv_user`)
-
----
-
-## 📖 Documentation Interactive Swagger / OpenAPI
-
-La spécification OpenAPI 3.0 et l'interface Swagger UI sont intégrées pour tester directement les endpoints REST :
-
-- **Swagger UI :** `http://localhost:8080/swagger-ui/index.html`
-- **Spécification JSON :** `http://localhost:8080/v3/api-docs`
-
-> Pour tester les endpoints sécurisés, cliquez sur le bouton **Authorize** et saisissez le token Bearer reçu lors du login.
 
 ---
 

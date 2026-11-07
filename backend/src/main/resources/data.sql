@@ -91,3 +91,4 @@ VALUES (
     TRUE,
     CURRENT_TIMESTAMP
 );
+

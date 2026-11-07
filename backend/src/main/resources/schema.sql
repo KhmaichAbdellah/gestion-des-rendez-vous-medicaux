@@ -72,3 +72,4 @@ CREATE TABLE IF NOT EXISTS rendez_vous (
     INDEX idx_rdv_debut (date_heure_debut),
     INDEX idx_rdv_statut (statut)
 );
+

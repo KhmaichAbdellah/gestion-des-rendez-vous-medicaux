@@ -79,3 +79,4 @@ class RendezVousControllerTest {
             .andExpect(jsonPath("$.motifAnnulation").value("Empêchement"));
     }
 }
+

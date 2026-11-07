@@ -137,3 +137,4 @@ class PatientServiceTest {
         assertThat(trouves.get(0).getNom()).isEqualTo("Dupont");
     }
 }
+

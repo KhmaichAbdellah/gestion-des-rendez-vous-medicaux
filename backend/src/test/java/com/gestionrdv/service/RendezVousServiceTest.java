@@ -148,3 +148,4 @@ class RendezVousServiceTest {
         assertThat(resultat.getOrdonnance()).contains("Paracétamol");
     }
 }
+
