@@ -1,0 +1,56 @@
+name: CI/CD Pipeline - Gestion RDV Médicaux
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # Pipeline Backend Spring Boot
+  backend-build-test:
+    name: Backend Build & Tests (Spring Boot)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build and run unit tests with Maven
+        working-directory: ./backend
+        run: mvn clean test -B
+
+      - name: Package application
+        working-directory: ./backend
+        run: mvn package -DskipTests -B
+
+  # Pipeline Frontend Angular
+  frontend-build-test:
+    name: Frontend Build & Typecheck (Angular 17)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: ./frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      - name: Build Angular production
+        working-directory: ./frontend
+        run: npm run build:prod
