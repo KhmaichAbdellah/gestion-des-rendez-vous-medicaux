@@ -60,6 +60,7 @@ export interface AuthUser {
   nom: string;
   prenom: string;
   specialite?: string;
+  numeroRpps?: string;
   roles: string[];
   token: string;
   type: string;
