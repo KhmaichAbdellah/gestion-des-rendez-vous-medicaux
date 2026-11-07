@@ -12,6 +12,9 @@ Application web complète permettant aux médecins de planifier, organiser et su
 - [Sécurité & Authentification](#-sécurité--authentification)
 - [Structure du Projet](#-structure-du-projet)
 - [Installation & Démarrage](#-installation--démarrage)
+- [Déploiement Docker](#-déploiement-docker)
+- [Documentation Interactive Swagger / OpenAPI](#-documentation-interactive-swagger--openapi)
+- [Tests Unitaires & Intégration](#-tests-unitaires--intégration)
 - [Endpoints API REST](#-endpoints-api-rest)
 - [Historique des Commits Git](#-historique-des-commits-git)
 
@@ -214,6 +217,60 @@ npm start
 - **Email :** `dr.martin@clinique.fr`
 - **Mot de passe :** `Medecin2024!`
 - Un bouton *"Remplir avec le compte démo"* est directement disponible sur la page de connexion.
+
+---
+
+## 🐳 Déploiement Docker
+
+Un environnement complet conteneurisé (Base de données MySQL 8 + Backend Spring Boot + Frontend Angular Nginx) est disponible :
+
+```bash
+# Lancement de l'ensemble des conteneurs
+docker-compose up -d --build
+
+# Vérification du statut
+docker-compose ps
+
+# Arrêt
+docker-compose down
+```
+
+- **Frontend Web :** `http://localhost:4200`
+- **API REST Backend :** `http://localhost:8080/api`
+- **Base de données MySQL :** Port `3306` (Base : `gestion_rdv_db`, Utilisateur : `rdv_user`)
+
+---
+
+## 📖 Documentation Interactive Swagger / OpenAPI
+
+La spécification OpenAPI 3.0 et l'interface Swagger UI sont intégrées pour tester directement les endpoints REST :
+
+- **Swagger UI :** `http://localhost:8080/swagger-ui/index.html`
+- **Spécification JSON :** `http://localhost:8080/v3/api-docs`
+
+> Pour tester les endpoints sécurisés, cliquez sur le bouton **Authorize** et saisissez le token Bearer reçu lors du login.
+
+---
+
+## 🧪 Tests Unitaires & Intégration
+
+### Backend (JUnit 5 + Mockito + MockMvc)
+```bash
+cd backend
+mvn test
+```
+- `PatientServiceTest` : CRUD, validations d'unicité (email/NSS), soft delete, recherche.
+- `RendezVousServiceTest` : Détection des conflits d'horaires, transitions de statuts, annulation avec motif, clôture avec diagnostic.
+- `AuthServiceTest` : Hachage BCrypt, émission token JWT, vérification de credentials.
+- `PatientControllerTest` & `RendezVousControllerTest` : Tests d'intégration des endpoints HTTP MockMvc avec contrôle de sécurité (`@WithMockUser`).
+
+### Frontend (Jasmine + Karma)
+```bash
+cd frontend
+npm test
+```
+- `patient.service.spec.ts` : Tests du client HTTP pour les opérations patients.
+- `rendez-vous.service.spec.ts` : Tests des transitions de statuts et filtres.
 
 ---
 
