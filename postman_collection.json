@@ -1,0 +1,335 @@
+{
+  "info": {
+    "_postman_id": "c1f7823b-5a1e-4cb8-9b8e-rdvmedical2024",
+    "name": "MédiRDV - API Gestion des Rendez-Vous Médicaux",
+    "description": "Collection complète pour tester l'API REST Spring Boot de gestion des consultations médicales.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Authentification",
+      "item": [
+        {
+          "name": "Connexion (Login) - Récupération du JWT",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.token) {",
+                  "    pm.collectionVariables.set('token', jsonData.token);",
+                  "    console.log('Token JWT sauvegardé automatiquement');",
+                  "}",
+                  "pm.test('Statut 200 OK', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"dr.martin@clinique.fr\",\n  \"motDePasse\": \"Medecin2024!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Inscription Médecin (Register)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prenom\": \"Lucas\",\n  \"nom\": \"Lemoine\",\n  \"email\": \"dr.lemoine@clinique.fr\",\n  \"motDePasse\": \"MedecinSecret2024!\",\n  \"specialite\": \"Cardiologie\",\n  \"numeroRpps\": \"10009876543\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Patients",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          { "key": "token", "value": "{{token}}", "type": "string" }
+        ]
+      },
+      "item": [
+        {
+          "name": "Liste de tous les patients",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/patients",
+              "host": ["{{baseUrl}}"],
+              "path": ["patients"]
+            }
+          }
+        },
+        {
+          "name": "Recherche de patients par terme",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/patients/recherche?terme=dupont",
+              "host": ["{{baseUrl}}"],
+              "path": ["patients", "recherche"],
+              "query": [
+                { "key": "terme", "value": "dupont" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Détail d'un patient par ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/patients/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["patients", "1"]
+            }
+          }
+        },
+        {
+          "name": "Créer un nouveau patient",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prenom\": \"Camille\",\n  \"nom\": \"Laurent\",\n  \"email\": \"camille.laurent@email.fr\",\n  \"telephone\": \"06 22 33 44 55\",\n  \"dateNaissance\": \"1988-12-04\",\n  \"sexe\": \"FEMININ\",\n  \"groupeSanguin\": \"O+\",\n  \"allergies\": \"Aucune\",\n  \"antecedentsMedicaux\": \"Asthme léger\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/patients",
+              "host": ["{{baseUrl}}"],
+              "path": ["patients"]
+            }
+          }
+        },
+        {
+          "name": "Mettre à jour un patient",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"prenom\": \"Jean\",\n  \"nom\": \"Dupont\",\n  \"email\": \"jean.dupont@email.fr\",\n  \"telephone\": \"06 10 20 30 99\",\n  \"groupeSanguin\": \"A+\",\n  \"allergies\": \"Pénicilline, Arachides\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/patients/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["patients", "1"]
+            }
+          }
+        },
+        {
+          "name": "Supprimer un patient (Soft Delete)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/patients/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["patients", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Rendez-Vous Médicaux",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          { "key": "token", "value": "{{token}}", "type": "string" }
+        ]
+      },
+      "item": [
+        {
+          "name": "Liste de tous les rendez-vous",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/rendez-vous",
+              "host": ["{{baseUrl}}"],
+              "path": ["rendez-vous"]
+            }
+          }
+        },
+        {
+          "name": "Filtrer les rendez-vous par statut (CONFIRME)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/rendez-vous?statut=CONFIRME",
+              "host": ["{{baseUrl}}"],
+              "path": ["rendez-vous"],
+              "query": [
+                { "key": "statut", "value": "CONFIRME" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Créer un rendez-vous (avec détection automatique de conflits)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": 2,\n  \"dateHeureDebut\": \"2026-11-10T14:00:00\",\n  \"dateHeureFin\": \"2026-11-10T14:30:00\",\n  \"motif\": \"Consultation de contrôle post-traitement\",\n  \"typeConsultation\": \"SUIVI\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rendez-vous",
+              "host": ["{{baseUrl}}"],
+              "path": ["rendez-vous"]
+            }
+          }
+        },
+        {
+          "name": "Confirmer un rendez-vous (vert #4CAF50)",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/rendez-vous/1/confirmer",
+              "host": ["{{baseUrl}}"],
+              "path": ["rendez-vous", "1", "confirmer"]
+            }
+          }
+        },
+        {
+          "name": "Annuler un rendez-vous (rouge #F44336 avec motif)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"motif\": \"Patient hospitalisé, report demandé\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rendez-vous/1/annuler",
+              "host": ["{{baseUrl}}"],
+              "path": ["rendez-vous", "1", "annuler"]
+            }
+          }
+        },
+        {
+          "name": "Clôturer une consultation (TERMINE avec diagnostic et ordonnance)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"notes\": \"Patient en bonne santé générale. Constantes normales.\",\n  \"diagnostic\": \"Rhinopharyngite virale saisonnière\",\n  \"ordonnance\": \"1. Paracétamol 1g : 1 comprimé 3 fois par jour si douleur\\n2. Sérum physiologique pour lavage nasal matin et soir pendant 5 jours\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/rendez-vous/1/terminer",
+              "host": ["{{baseUrl}}"],
+              "path": ["rendez-vous", "1", "terminer"]
+            }
+          }
+        },
+        {
+          "name": "Rendez-vous du jour",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/rendez-vous/aujourd-hui",
+              "host": ["{{baseUrl}}"],
+              "path": ["rendez-vous", "aujourd-hui"]
+            }
+          }
+        },
+        {
+          "name": "Rendez-vous pour vue calendrier (plage de dates)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/rendez-vous/calendrier?debut=2026-11-01T00:00:00&fin=2026-11-30T23:59:59",
+              "host": ["{{baseUrl}}"],
+              "path": ["rendez-vous", "calendrier"],
+              "query": [
+                { "key": "debut", "value": "2026-11-01T00:00:00" },
+                { "key": "fin", "value": "2026-11-30T23:59:59" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Dashboard Médecin",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          { "key": "token", "value": "{{token}}", "type": "string" }
+        ]
+      },
+      "item": [
+        {
+          "name": "Statistiques et compteurs par statut",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/dashboard/statistiques",
+              "host": ["{{baseUrl}}"],
+              "path": ["dashboard", "statistiques"]
+            }
+          }
+        },
+        {
+          "name": "Agenda du jour",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/dashboard/aujourd-hui",
+              "host": ["{{baseUrl}}"],
+              "path": ["dashboard", "aujourd-hui"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
